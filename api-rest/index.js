@@ -5,6 +5,8 @@ var dataTable;
 const express = require('express')
 const bodyParser=require('body-parser')
 const app=express()
+const cors=require('cors')
+app.use(cors())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
@@ -43,7 +45,6 @@ app.get('/api/login', function (req, res){
          res.status(400),send({resultats : null})
       }else{//si todo ok
          res.status(200).send({resultats : results})
-         dataTable = resultats;
       }
    })//end connection query
    connection.end();

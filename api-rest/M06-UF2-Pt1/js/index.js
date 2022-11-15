@@ -1,5 +1,11 @@
+//--------------------------------------Variables----------------------------------------------
+var table;
+
+//---------------------------------------DOM----------------------------------------------------------
 $(document).ready(function(){
     // Llamamos las funciones en los botones
+    
+    ajax();
     $("btnValidar").click(function(){
         validarDni(dni);
         validarNom(nom);
@@ -7,7 +13,23 @@ $(document).ready(function(){
         validarEntryDate(edate);
     })
 })
+//------------------------------------------------------------------------------------------------
 
+//----------------------------AJAX---------------------------------------------------------------
+
+
+function ajax(){
+    $.get("http://localhost:3000/api/login", function(){
+        // table = resultats;
+        // console.log(table);  
+        $("#prueba").append(res)  
+    })
+        .fail(function(){
+            alert("error");
+        })
+        
+}
+//---------------------------------------------------------------------------------------------------
 // Funcion para validar la columna DNI
 function validarDni(dni){
     if(dni.length == 9){
