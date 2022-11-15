@@ -1,5 +1,5 @@
 //--------------------------------------Variables----------------------------------------------
-var table;
+var tableData;
 
 //---------------------------------------DOM----------------------------------------------------------
 $(document).ready(function(){
@@ -19,10 +19,12 @@ $(document).ready(function(){
 
 
 function ajax(){
-    $.get("http://localhost:3000/api/login", function(){
+    $.get("http://localhost:3000/api/login", function(data){
         // table = resultats;
         // console.log(table);  
-        $("#prueba").append(res)  
+        tableData = data;
+        console.log(data)
+
     })
         .fail(function(){
             alert("error");

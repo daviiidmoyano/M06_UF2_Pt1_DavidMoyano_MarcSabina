@@ -53,7 +53,3 @@ app.get('/api/login', function (req, res){
 app.listen(3000, ()=>{
    console.log('Aquesta és la nostra API-REST que corre en http://localhost:3000')
 })
-
-//------------------Object creation---------------------------------------------------------
-
-console.log(dataTable)
