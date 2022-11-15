@@ -52,7 +52,16 @@ validarAccountType(acctype){
 
 // Funcion para validar la columna Amount
 validarAmount(amount){
-
+    if(amount.length > 0){
+        let expRegNum = /^[0-9]+$/;
+        if(expRegNum.test(amount)){
+            $("#resultAmount").html("<div class='alert alert-success col-2'><strong>El dinero es correcto</strong></div>")
+        }else{
+            $("#resultAmount").html("<div class='alert alert-danger col-2'><strong>Este dinero no es válido</strong></div>")
+        }
+    }else{
+        $("#resultAmount").html("<div class='alert alert-warning col-2'><strong>Tamaño incorrecto.</strong></div>")
+    }
 }
 
 // Funcion para validar la columna Client Type
@@ -64,3 +73,9 @@ validarClientType(ctype){
 validarEntryDate(edate){
 
 }
+
+// Datapicker en catalan
+function datapickerCat(){
+    
+}
+    
