@@ -1,0 +1,2 @@
+For dentro de for 
+con la informacion de sql para crear una tabla dinamicamente.
