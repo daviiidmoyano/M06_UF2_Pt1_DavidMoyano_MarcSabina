@@ -6,6 +6,7 @@ $(document).ready(function(){
     // Llamamos las funciones en los botones
     
     ajax();
+    createTable();
     $("btnValidar").click(function(){
         validarDni(dni);
         validarNom(nom);
@@ -31,7 +32,12 @@ function ajax(){
         })
         
 }
-//---------------------------------------------------------------------------------------------------
+//--------------------FUNCTIONS----------------------------------------------------------------------------------
+function createTable(){
+    
+
+}
+//-------------------VALIDATIONS--------------------------------------------------------------------------------
 // Funcion para validar la columna DNI
 function validarDni(dni){
     if(dni.length == 9){
