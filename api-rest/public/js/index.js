@@ -5,7 +5,6 @@ $(document).ready(function(){
     // Llamamos las funciones en los botones
     
     tableData = ajax();
-    createTable(tableData);
     
     $("btnValidar").click(function(){
         validarDni(dni);
@@ -22,25 +21,26 @@ $(document).ready(function(){
 function ajax(){
     let valueData=[];
     $.get("http://localhost:3000/api/login", function(data){ 
-        valueData = data;
+       // data;
         console.log(valueData)
     })
         .fail(function(){
             alert("error");
         })
-        return valueData;
+      //  return valueData;
 }
 //--------------------FUNCTIONS----------------------------------------------------------------------------------
-function createTable(tableData){
+/*function createTable(tableData){
     for (let i=0; i>= tableData.length; i++){
         let rowArray = tableData.slice(i);
         console.log(rowArray)
-        for(let y=0; y>=rowArray.length;y++){
+        //for(let y=0; y>=rowArray.length;y++){
             console.log(rowArray[y])
-        }
+        //}
     }
 
 }
+*/
 //-------------------VALIDATIONS--------------------------------------------------------------------------------
 // Funcion para validar la columna DNI
 function validarDni(dni){

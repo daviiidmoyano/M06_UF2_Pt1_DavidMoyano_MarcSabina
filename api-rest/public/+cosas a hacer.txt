@@ -1,0 +1,3 @@
+my amount blur para cambiar el client type
+que de por si nada mas entrar al html el client type este seleccionado
+bloquear client type
