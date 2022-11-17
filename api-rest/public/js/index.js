@@ -1,12 +1,12 @@
 //--------------------------------------Variables----------------------------------------------
-var tableData;
-
+var tableData=[];
 //---------------------------------------DOM----------------------------------------------------------
 $(document).ready(function(){
     // Llamamos las funciones en los botones
     
-    ajax();
-    createTable();
+    tableData = ajax();
+    createTable(tableData);
+    
     $("btnValidar").click(function(){
         validarDni(dni);
         validarNom(nom);
@@ -20,21 +20,25 @@ $(document).ready(function(){
 
 
 function ajax(){
-    $.get("http://localhost:3000/api/login", function(data){
-        // table = resultats;
-        // console.log(table);  
-        tableData = data;
-        console.log(data)
-
+    let valueData=[];
+    $.get("http://localhost:3000/api/login", function(data){ 
+        valueData = data;
+        console.log(valueData)
     })
         .fail(function(){
             alert("error");
         })
-        
+        return valueData;
 }
 //--------------------FUNCTIONS----------------------------------------------------------------------------------
-function createTable(){
-    
+function createTable(tableData){
+    for (let i=0; i>= tableData.length; i++){
+        let rowArray = tableData.slice(i);
+        console.log(rowArray)
+        for(let y=0; y>=rowArray.length;y++){
+            console.log(rowArray[y])
+        }
+    }
 
 }
 //-------------------VALIDATIONS--------------------------------------------------------------------------------
