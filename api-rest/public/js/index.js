@@ -1,36 +1,37 @@
 //--------------------------------------Variables----------------------------------------------
-var tableData=[];
+var tableData;
 //---------------------------------------DOM----------------------------------------------------------
 $(document).ready(function(){
     // Llamamos las funciones en los botones
     
-    tableData = ajax();
-    
+     ajax();
+     
+    putClientType();
     //-----------------------------------------------------VALIDATIONS--------------------------------------------------------------------------------
     // Funcion para validar la columna DNI
     $("#btnValidar").click(function(){
-        if($('#myDni').val().match('/[0-9]{7,8}[A-Z]/')){
-            $("#resultDni").html("<div class='alert alert-success col-2'><strong>Este DNI es correcto: </strong>"+ dni +"</div>");
+        if($('#myDni').val().match(/[0-9]{7,8}[A-Z]/)){
+            $("#resultDni").html("<div class='alert alert-success col-10'><strong>Este DNI es correcto: </strong>"+ dni +"</div>");
         }else{
-            $("#resultDni").html("<div class='alert alert-danger col-2'><strong>Este DNI es falso: </strong>" +dni+ "</div>");
+            $("#resultDni").html("<div class='alert alert-danger col-10'><strong>Este DNI es falso: </strong>" +dni+ "</div>");
         }
     })
 
     // Funcion para validar la columna Nombre
     $("#btnValidar").click(function(){
         if($('#myName').val().match(/^[a-zA-Z ÑñÁáÀàÉéÈèËëÍíÌìÏïÓóÒòÚúÙùÜü\s]+$/)){
-            $("#resultNom").html("<div class='alert alert-success col-2'><strong>El nombre es correcto</strong></div>");
+            $("#resultNom").html("<div class='alert alert-success col-10'><strong>El nombre es correcto</strong></div>");
         }else{
-            $("#resultNom").html("<div class='alert alert-danger col-2'><strong>Este nombre no es válido</strong></div>");
+            $("#resultNom").html("<div class='alert alert-danger col-10'><strong>Este nombre no es válido</strong></div>");
         }
     })
 
     // Funcion para validar la columna Amount
     $("#btnValidar").click(function(){
-        if($('#myAmount').val().match('/^[0-9]+$/')){
-            $("#resultAmount").html("<div class='alert alert-success col-2'><strong>El dinero es correcto</strong></div>");
+        if($('#myAmount').val().match(/^[0-9]+$/)){
+            $("#resultAmount").html("<div class='alert alert-success col-10'><strong>El dinero es correcto</strong></div>");
         }else{
-            $("#resultAmount").html("<div class='alert alert-danger col-2'><strong>Este dinero no es válido</strong></div>")
+            $("#resultAmount").html("<div class='alert alert-danger col-10'><strong>Este dinero no es válido</strong></div>")
         }
     })
 
@@ -46,6 +47,9 @@ $(document).ready(function(){
             $('#myCtype').val("Very rich client");
         }
     })
+    function putClientType(){
+        
+    }
 
 })
 //------------------------------------------------------------------------------------------------
@@ -54,28 +58,25 @@ $(document).ready(function(){
 
 
 function ajax(){
-    let valueData=[];
     $.get("http://localhost:3000/api/login", function(data){ 
-       // data;
-        console.log(valueData)
+        tableData=data;
+        createTable();
+        //console.log(data);
     })
         .fail(function(){
             alert("error");
         })
-      //  return valueData;
-}
-//--------------------FUNCTIONS----------------------------------------------------------------------------------
-/*function createTable(tableData){
-    for (let i=0; i>= tableData.length; i++){
-        let rowArray = tableData.slice(i);
-        console.log(rowArray)
-        //for(let y=0; y>=rowArray.length;y++){
-            console.log(rowArray[y])
-        //}
+       
     }
-
+//--------------------FUNCTIONS----------------------------------------------------------------------------------
+function createTable(){
+    console.log(tableData.resultats[0].DNI);
+    //console.log(tableData.)
+    for (let i = 0; i < tableData.resultats.length; i++){
+        let html = '<input type="text" id="dni'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].DNI+'">';
+    }
 }
-*/
+
 
 // Datapicker en catalan
 function datapickerCat(){
