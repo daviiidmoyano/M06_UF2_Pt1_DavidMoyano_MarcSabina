@@ -6,11 +6,13 @@ const express = require('express')
 const bodyParser=require('body-parser')
 const app=express()
 const cors=require('cors')
+const mysql=require('mysql');
+const path =require('path')
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
+app.use('/',express.static(path.join(__dirname,'public')))
 
-const mysql=require('mysql');
 
 // -----------------Conection Params-----------------------
 var connection = mysql.createConnection({
