@@ -6,12 +6,47 @@ $(document).ready(function(){
     
     tableData = ajax();
     
-    $("btnValidar").click(function(){
-        validarDni(dni);
-        validarNom(nom);
-        validarAmount(amount);
-        validarEntryDate(edate);
+    //-----------------------------------------------------VALIDATIONS--------------------------------------------------------------------------------
+    // Funcion para validar la columna DNI
+    $("#btnValidar").click(function(){
+        if($('#myDni').val().match('/[0-9]{7,8}[A-Z]/')){
+            $("#resultDni").html("<div class='alert alert-success col-2'><strong>Este DNI es correcto: </strong>"+ dni +"</div>");
+        }else{
+            $("#resultDni").html("<div class='alert alert-danger col-2'><strong>Este DNI es falso: </strong>" +dni+ "</div>");
+        }
     })
+
+    // Funcion para validar la columna Nombre
+    $("#btnValidar").click(function(){
+        if($('#myName').val().match(/^[a-zA-Z ÑñÁáÀàÉéÈèËëÍíÌìÏïÓóÒòÚúÙùÜü\s]+$/)){
+            $("#resultNom").html("<div class='alert alert-success col-2'><strong>El nombre es correcto</strong></div>");
+        }else{
+            $("#resultNom").html("<div class='alert alert-danger col-2'><strong>Este nombre no es válido</strong></div>");
+        }
+    })
+
+    // Funcion para validar la columna Amount
+    $("#btnValidar").click(function(){
+        if($('#myAmount').val().match('/^[0-9]+$/')){
+            $("#resultAmount").html("<div class='alert alert-success col-2'><strong>El dinero es correcto</strong></div>");
+        }else{
+            $("#resultAmount").html("<div class='alert alert-danger col-2'><strong>Este dinero no es válido</strong></div>")
+        }
+    })
+
+    // Funcion para validar la columna Type Client
+    $("#myAmount").blur(function(){
+        if($('#myAmount').val() <= 10000){
+            $('#myCtype').val("Poor client");
+        }else if($('#myCtype').val() >= 10001){
+            $('#myCtype').val("Normal client");
+        }else if($('#myCtype').val() <= 100000){
+            $('#myCtype').val("Normal client");
+        }else{
+            $('#myCtype').val("Very rich client");
+        }
+    })
+
 })
 //------------------------------------------------------------------------------------------------
 
@@ -41,60 +76,6 @@ function ajax(){
 
 }
 */
-//-------------------VALIDATIONS--------------------------------------------------------------------------------
-// Funcion para validar la columna DNI
-function validarDni(dni){
-    if(dni.length == 9){
-        let numero = dni.substring(0,8);
-        let letra = dni.substr(dni.length-1,1);
-        if(isNaN(numero) || !isNaN(letra)){
-            $("#resultDni").html("<div class='alert alert-warning col-2'><strong>Formato incorrecto.</strong></div>")
-        }else {
-            let calculo = numero % 23;
-            let letras = "TRWAGMYFPDXBNJZSQVHLCKE";
-            if(letra.toUpperCase() == letras[calculo]){
-                $("#resultDni").html("<div class='alert alert-success col-2'><strong>Este DNI es correcto: </strong>"+ dni +"</div>");
-            }else {
-                $("#resultDni").html("<div class='alert alert-danger col-2'><strong>Este DNI es falso: </strong>" +dni+ "</div>");
-            }
-        }
-    }else {
-        $("#resultDni").html("<div class='alert alert-warning col-2'><strong>Tamaño incorrecto.</strong></div>");
-    }
-}
-
-// Funcion para validar la columna Nombre
-function validarNom(nom){
-    if(nom.length > 0){
-        let expRegLetras = /^[a-zA-Z ÑñÁáÀàÉéÈèËëÍíÌìÏïÓóÒòÚúÙùÜü\s]+$/;
-        if(expRegLetras.test(nom)){
-            $("#resultNom").html("<div class='alert alert-success col-2'><strong>El nombre es correcto</strong></div>");
-        }else{
-            $("#resultNom").html("<div class='alert alert-danger col-2'><strong>Este nombre no es válido</strong></div>");
-        }
-    }else {
-        $("#resultNom").html("<div class='alert alert-warning col-2'><strong>Tamaño incorrecto.</strong></div>");
-    }
-}
-
-// Funcion para validar la columna Amount
-/*validarAmount(amount){
-    if(amount.length > 0){
-        let expRegNum = /^[0-9]+$/;
-        if(expRegNum.test(amount)){
-            $("#resultAmount").html("<div class='alert alert-success col-2'><strong>El dinero es correcto</strong></div>")
-        }else{
-            $("#resultAmount").html("<div class='alert alert-danger col-2'><strong>Este dinero no es válido</strong></div>")
-        }
-    }else{
-        $("#resultAmount").html("<div class='alert alert-warning col-2'><strong>Tamaño incorrecto.</strong></div>")
-    }
-}*/
-
-// Funcion para validar la columna Entry Date
-/*validarEntryDate(edate){
-
-}*/
 
 // Datapicker en catalan
 function datapickerCat(){
