@@ -90,7 +90,7 @@ function createTable(){
             $("#actype"+i).html(html)
         }
         for (let i = 0; i < tableData.resultats.length; i++){
-            let html = '<input type="number" id="amount'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].amount+'">';
+            let html = '<input type="number" id="amount'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].amount+'>';
             $("#amount"+i).html(html)
         }
         for (let i = 0; i < tableData.resultats.length; i++){
