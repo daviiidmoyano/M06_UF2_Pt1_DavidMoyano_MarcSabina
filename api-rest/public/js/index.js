@@ -70,11 +70,39 @@ function ajax(){
     }
 //--------------------FUNCTIONS----------------------------------------------------------------------------------
 function createTable(){
-    console.log(tableData.resultats[0].DNI);
-    //console.log(tableData.)
-    for (let i = 0; i < tableData.resultats.length; i++){
-        let html = '<input type="text" id="dni'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].DNI+'">';
-    }
+    // console.log(tableData.resultats[0].DNI);
+    //console.log(tableData.resultats)
+    let lengthOfObject = Object.keys(tableData.resultats).length; 
+    //console.log(lengthOfObject);
+    
+    
+    //for (let y = 0; y < lengthOfObject; y++){
+        for (let i = 0; i < tableData.resultats.length; i++){
+            let html = '<input type="text" id="dni'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].DNI+'">';
+            $("#dni"+i).html(html)
+        }
+        for (let i = 0; i < tableData.resultats.length; i++){
+            let html = '<input type="text" id="name'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].Name+'">';
+            $("#name"+i).html(html)
+        }
+        for (let i = 0; i < tableData.resultats.length; i++){
+            let html = '<input type="text" id="accountType'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].Account_Type+'">';
+            $("#actype"+i).html(html)
+        }
+        for (let i = 0; i < tableData.resultats.length; i++){
+            let html = '<input type="number" id="amount'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].amount+'">';
+            $("#amount"+i).html(html)
+        }
+        for (let i = 0; i < tableData.resultats.length; i++){
+            let html = '<input type="text" id="clienttype'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].Client_Type+'">';
+            $("#clienttype"+i).html(html)
+        }
+        for (let i = 0; i < tableData.resultats.length; i++){
+            let html = '<input type="date" id="entrydate'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].entry_date+'">';
+            $("#entrydate"+i).html(html)
+        }
+
+//}
 }
 
 
