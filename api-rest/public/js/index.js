@@ -2,19 +2,23 @@
 var tableData;
 //---------------------------------------DOM----------------------------------------------------------
 $(document).ready(function(){
-    // Llamamos las funciones en los botones
-    
-     ajax();
-     
+    // Llamamos las funciones en los botones    
+    ajax();//asincrono
+   // datapickerCat();
     putClientType();
     //-----------------------------------------------------VALIDATIONS--------------------------------------------------------------------------------
+    let lengthOfObject = Object.keys(tableData.resultats).length;
     // Funcion para validar la columna DNI
+
     $("#btnValidar").click(function(){
-        if($('#myDni').val().match(/[0-9]{7,8}[A-Z]/)){
-            $("#resultDni").html("<div class='alert alert-success col-10'><strong>Este DNI es correcto: </strong>"+ dni +"</div>");
-        }else{
-            $("#resultDni").html("<div class='alert alert-danger col-10'><strong>Este DNI es falso: </strong>" +dni+ "</div>");
+        for(let i = 0; i < lengthOfObject; i++){
+            if($('dni'+i).val().match(/[0-9]{7,8}[A-Z]/)){
+                $("#resultDni").html("<div class='alert alert-success col-10'><strong>Este DNI es correcto: </strong>"+ dni +"</div>");
+            }else{
+                $("#resultDni").html("<div class='alert alert-danger col-10'><strong>Este DNI es falso: </strong>" +dni+ "</div>");
+            }
         }
+        
     })
 
     // Funcion para validar la columna Nombre
@@ -79,7 +83,7 @@ function createTable(){
     //for (let y = 0; y < lengthOfObject; y++){
         for (let i = 0; i < tableData.resultats.length; i++){
             let html = '<input type="text" id="dni'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].DNI+'">';
-            $("#dni"+i).html(html)
+            $("#dni"+i).append(html)
         }
         for (let i = 0; i < tableData.resultats.length; i++){
             let html = '<input type="text" id="name'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].Name+'">';
@@ -98,13 +102,17 @@ function createTable(){
             $("#clienttype"+i).html(html)
         }
         for (let i = 0; i < tableData.resultats.length; i++){
-            let html = '<input type="date" id="entrydate'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].entry_date+'">';
+            let html = '<input type="text" id="entrydate'+i+'" class="form-control form-control-sm datapicker" value="'+tableData.resultats[i].entry_date+'">';
             $("#entrydate"+i).html(html)
         }
-
+        //acaba de crear la tabla
+        //datapickerCat();
+       
+       // $(".datapicker").datepicker();
+       datapickerCat();
+       
 //}
 }
-
 
 // Datapicker en catalan
 function datapickerCat(){
@@ -122,9 +130,15 @@ function datapickerCat(){
         dateFormat: 'dd/mm/yy',
         firstDay: 1,
         isRTL: false,
+        maxDate: -1,
         showMonthAfterYear: false,
         yearSuffix: ''
     };
     $.datepicker.setDefaults($.datepicker.regional['ca']);
+    $(".datapicker").datepicker();
+     
+        
+    
 }
+
     
