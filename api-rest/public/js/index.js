@@ -2,7 +2,7 @@
 var tableData;
 var accountTypeObj={};
 var clientTypeObj={};
-var account={};
+var accountObj={};
 //---------------------------------------DOM----------------------------------------------------------
 $(document).ready(function(){
     // Llamamos las funciones en los botones    
@@ -58,7 +58,7 @@ function createTable(){
             }
         }
         for (let i = 0; i < lengthOfObject; i++){
-            let html = '<input type="text" id="entrydate'+i+'" class="form-control form-control-sm datepicker" value="'+tableData.resultats[i].entry_date+'">';
+            let html = '<input type="text" id="entrydate'+i+'" class="form-control form-control-sm datepicker" value="'+tableData.resultats[i].Entry_date+'">';
             $("#entrydate"+i).append(html)
         }
         //acaba de crear la tabla
@@ -113,9 +113,19 @@ function validations(){
     })
 }
 function createObjects(){
+    // Creacion de los objetos
     let lengthOfObject = Object.keys(tableData.resultats).length;
     for (let i = 0; i<=lengthOfObject; i++){
-
+        accountTypeObj = i + " " + tableData.resultats[i].Account_Type
+        localStorage.setItem("Account Type Object", JSON.stringify(accountTypeObj));
+    }
+    for (let i = 0; i<=lengthOfObject; i++){
+        clientTypeObj= i + " " + tableData.resultats[i].Client_Type + " description";
+        localStorage.setItem("Client Type Object", JSON.stringify(clientTypeObj));
+    }
+    for (let i = 0; i<=lengthOfObject; i++){
+        accountObj= i + " " + accountTypeObj[i] + " " +  clientTypeObj[i] + " " + tableData.resultats[i].Name + " " + tableData.resultats[i].DNI + " " + tableData.resultats[i].Amount + " "+ tableData.resultats[i].Entry_date + " ";
+        localStorage.setItem("Account Object", JSON.stringify(accountObj));
     }
 }
 // Datepicker en catalan
