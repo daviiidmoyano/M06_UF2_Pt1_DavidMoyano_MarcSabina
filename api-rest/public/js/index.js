@@ -1,121 +1,125 @@
-//--------------------------------------Variables----------------------------------------------
+//--------------------------------------VARIABLES----------------------------------------------
 var tableData;
+var accountTypeObj={};
+var clientTypeObj={};
+var account={};
 //---------------------------------------DOM----------------------------------------------------------
 $(document).ready(function(){
     // Llamamos las funciones en los botones    
     ajax();//asincrono
-   // datapickerCat();
-    putClientType();
-    //-----------------------------------------------------VALIDATIONS--------------------------------------------------------------------------------
-    let lengthOfObject = Object.keys(tableData.resultats).length;
-    // Funcion para validar la columna DNI
-
-    $("#btnValidar").click(function(){
-        for(let i = 0; i < lengthOfObject; i++){
-            if($('dni'+i).val().match(/[0-9]{7,8}[A-Z]/)){
-                $("#resultDni").html("<div class='alert alert-success col-10'><strong>Este DNI es correcto: </strong>"+ dni +"</div>");
-            }else{
-                $("#resultDni").html("<div class='alert alert-danger col-10'><strong>Este DNI es falso: </strong>" +dni+ "</div>");
-            }
-        }
-        
-    })
-
-    // Funcion para validar la columna Nombre
-    $("#btnValidar").click(function(){
-        if($('#myName').val().match(/^[a-zA-Z ÑñÁáÀàÉéÈèËëÍíÌìÏïÓóÒòÚúÙùÜü\s]+$/)){
-            $("#resultNom").html("<div class='alert alert-success col-10'><strong>El nombre es correcto</strong></div>");
-        }else{
-            $("#resultNom").html("<div class='alert alert-danger col-10'><strong>Este nombre no es válido</strong></div>");
-        }
-    })
-
-    // Funcion para validar la columna Amount
-    $("#btnValidar").click(function(){
-        if($('#myAmount').val().match(/^[0-9]+$/)){
-            $("#resultAmount").html("<div class='alert alert-success col-10'><strong>El dinero es correcto</strong></div>");
-        }else{
-            $("#resultAmount").html("<div class='alert alert-danger col-10'><strong>Este dinero no es válido</strong></div>")
-        }
-    })
-
-    // Funcion para validar la columna Type Client
-    $("#myAmount").blur(function(){
-        if($('#myAmount').val() <= 10000){
-            $('#myCtype').val("Poor client");
-        }else if($('#myCtype').val() >= 10001){
-            $('#myCtype').val("Normal client");
-        }else if($('#myCtype').val() <= 100000){
-            $('#myCtype').val("Normal client");
-        }else{
-            $('#myCtype').val("Very rich client");
-        }
-    })
-    function putClientType(){
-        
-    }
-
 })
-//------------------------------------------------------------------------------------------------
-
 //----------------------------AJAX---------------------------------------------------------------
-
-
 function ajax(){
-    $.get("http://localhost:3000/api/login", function(data){ 
-        tableData=data;
-        createTable();
-        //console.log(data);
+    $.get("http://localhost:3000/api/login", function(data){ // Peticion GET que recibe los datos de una tabla SQL
+        tableData=data; // Guardamos la información que obtenemos por le get en una variable
+        createTable(); 
+        validations();
+        createObjects();
     })
-        .fail(function(){
+        .fail(function(){ // En caso de Error a la hora de conectarnos al servidor nos muestra un alert
             alert("error");
         })
        
     }
 //--------------------FUNCTIONS----------------------------------------------------------------------------------
 function createTable(){
-    // console.log(tableData.resultats[0].DNI);
-    //console.log(tableData.resultats)
-    let lengthOfObject = Object.keys(tableData.resultats).length; 
-    //console.log(lengthOfObject);
+   
+    let lengthOfObject = Object.keys(tableData.resultats).length; // Esta variable recoge la longitud del objeto recibido por la base de datos
     
-    
-    //for (let y = 0; y < lengthOfObject; y++){
-        for (let i = 0; i < tableData.resultats.length; i++){
+    // bucles para la creacion de inputs y insertar en la tabla html los valores de la peticion get
+        for (let i = 0; i <lengthOfObject; i++){
             let html = '<input type="text" id="dni'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].DNI+'">';
             $("#dni"+i).append(html)
         }
-        for (let i = 0; i < tableData.resultats.length; i++){
+        for (let i = 0; i < lengthOfObject; i++){
             let html = '<input type="text" id="name'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].Name+'">';
-            $("#name"+i).html(html)
+            $("#name"+i).append(html)
         }
-        for (let i = 0; i < tableData.resultats.length; i++){
+        for (let i = 0; i < lengthOfObject; i++){
             let html = '<input type="text" id="accountType'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].Account_Type+'">';
-            $("#actype"+i).html(html)
+            $("#actype"+i).append(html)
         }
-        for (let i = 0; i < tableData.resultats.length; i++){
-            let html = '<input type="number" id="amount'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].amount+'>';
-            $("#amount"+i).html(html)
+        for (let i = 0; i < lengthOfObject; i++){
+            let html = '<input type="text" id="accountType'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].Amount+'">';
+            $("#amount"+i).append(html)
         }
-        for (let i = 0; i < tableData.resultats.length; i++){
-            let html = '<input type="text" id="clienttype'+i+'" class="form-control form-control-sm" value="'+tableData.resultats[i].Client_Type+'">';
-            $("#clienttype"+i).html(html)
+        for (let i = 0; i < lengthOfObject; i++){
+            if((0<=tableData.resultats[i].Amount) && (tableData.resultats[i].Amount>=10000)){
+                let html = '<input type="text" id="clienttype'+i+'" class="form-control form-control-sm" readonly onmousedown="resturn false" value="Poor Client">';
+                $("#clienttype"+i).append(html)
+            }else if((10001<=tableData.resultats[i].Amount) && (tableData.resultats[i].Amount >= 100000)){
+                let html = '<input type="text" id="clienttype'+i+'" class="form-control form-control-sm" readonly onmousedown="resturn false" value="Normal Client">';
+                $("#clienttype"+i).append(html)
+            }else if(100001<=tableData.resultats[i].Amount){
+                let html = '<input type="text" id="clienttype'+i+'" class="form-control form-control-sm" readonly onmousedown="resturn false" value="Very Rich Client">';
+                $("#clienttype"+i).append(html)
+            }else{
+                console.log("Error")
+            }
         }
-        for (let i = 0; i < tableData.resultats.length; i++){
-            let html = '<input type="text" id="entrydate'+i+'" class="form-control form-control-sm datapicker" value="'+tableData.resultats[i].entry_date+'">';
-            $("#entrydate"+i).html(html)
+        for (let i = 0; i < lengthOfObject; i++){
+            let html = '<input type="text" id="entrydate'+i+'" class="form-control form-control-sm datepicker" value="'+tableData.resultats[i].entry_date+'">';
+            $("#entrydate"+i).append(html)
         }
         //acaba de crear la tabla
-        //datapickerCat();
-       
-       // $(".datapicker").datepicker();
-       datapickerCat();
+              
+        $(".datepicker").datepicker(); // esta funcion realiza que en las clase datepicker tengan el valor datepicker
+        datepickerCat();
        
 //}
 }
+function validations(){
 
-// Datapicker en catalan
-function datapickerCat(){
+    let lengthOfObject = Object.keys(tableData.resultats).length;  // Esta variable recoge la longitud del objeto recibido por la base de datos
+
+    // Funcion para validar la columna DNI
+    $("#btnValidar").click(function(){
+        for(let i = 0; i < lengthOfObject; i++){
+            if($("#dni"+i).val().match(/[0-9]{7,8}[A-Z]/)){
+                $("#dni"+i).append("<div class='alert alert-success col-10'><strong>Este DNI es correcto: </strong>"+ dni +"</div>");
+            }else{
+                $("#dni"+i).append("<div class='alert alert-danger col-10'><strong>Este DNI es falso: </strong>" +dni+ "</div>");
+            }
+        }
+        for(let i = 0; i < lengthOfObject; i++){
+            if($("#name"+i).val().match(/^[a-zA-Z ÑñÁáÀàÉéÈèËëÍíÌìÏïÓóÒòÚúÙùÜü\s]+$/)){
+                $("#resultNom"+i).html("<div class='alert alert-success col-10'><strong>El nombre es correcto</strong></div>");
+            }else{
+                $("#resultNom"+i).html("<div class='alert alert-danger col-10'><strong>Este nombre no es válido</strong></div>");
+            }   
+        }
+        for(let i = 0; i < lengthOfObject; i++){
+            if($("#amount"+i).val().match(/^[0-9]+$/)){
+                $("#resultAmount").html("<div class='alert alert-success col-10'><strong>El dinero es correcto</strong></div>");
+            }else{
+                $("#resultAmount").html("<div class='alert alert-danger col-10'><strong>Este dinero no es válido</strong></div>")
+            }    
+        }
+    })
+
+    // Funcion para validar la columna Type Client
+    $("#amount").blur(function(){
+        for(let i = 0; i < lengthOfObject; i++){
+            if($("#amount"+i).val() <= 10000){
+                $("#clienttype"+i).val("Poor client");
+            }else if($("#clienttype"+i).val() >= 10001){
+                $('#myCtype').val("Normal client");
+            }else if($("#clienttype"+i).val() <= 100000){
+                $("#clienttype"+i).val("Normal client");
+            }else{
+                $("#clienttype"+i).val("Very rich client");
+            }    
+        }
+    })
+}
+function createObjects(){
+    let lengthOfObject = Object.keys(tableData.resultats).length;
+    for (let i = 0; i<=lengthOfObject; i++){
+
+    }
+}
+// Datepicker en catalan
+function datepickerCat(){
     $.datepicker.regional['ca'] = {
         closeText: 'Tanca',
         prevText: 'Anterior',
@@ -135,10 +139,11 @@ function datapickerCat(){
         yearSuffix: ''
     };
     $.datepicker.setDefaults($.datepicker.regional['ca']);
-    $(".datapicker").datepicker();
+};
+$(".datepicker").datepicker();
      
         
     
-}
+
 
     
